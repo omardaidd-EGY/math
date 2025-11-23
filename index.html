@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Õ„«œÂ ≈”„«⁄Ì· | ⁄›—Ì  «·—Ì«÷Ì« </title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        :root{--main:#8b00ff;--accent:#ff2e63;--dark:#0a001a;--gray:rgba(255,255,255,0.08);}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Cairo',sans-serif;background:linear-gradient(135deg,#0f0020,#1a0033);color:#eee;min-height:100vh;}
+        header{background:rgba(10,0,26,0.95);backdrop-filter:blur(10px);position:fixed;top:0;width:100%;z-index:1000;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--accent);}
+        .logo{font-size:2.4rem;font-weight:900;color:white;}
+        .logo span{color:var(--accent);text-shadow:0 0 20px var(--accent);}
+        .nav-links a{color:white;margin-left:30px;text-decoration:none;font-weight:600;}
+        .nav-links a:hover{color:var(--accent);}
+        #adminBtn{display:none;background:var(--main);color:white;padding:12px 25px;border-radius:50px;font-weight:700;}
+
+        .hero{text-align:center;padding:160px 20px 120px;}
+        .hero h1{font-size:4.8rem;background:linear-gradient(90deg,#fff,var(--accent),var(--main));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px;}
+        .hero p{font-size:1.8rem;max-width:900px;margin:30px auto;}
+
+        /* «·√“—«— «·À·«À… «·ﬂ»Ì—… */
+        .grades-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:30px;margin:60px 0;}
+        .grade-btn{background:var(--gray);padding:40px 30px;border-radius:25px;width:320px;text-align:center;
+            box-shadow:0 15px 40px rgba(139,0,255,0.4);transition:0.5s;cursor:pointer;border:3px solid transparent;}
+        .grade-btn:hover{transform:translateY(-20px) scale(1.05);border-color:var(--accent);box-shadow:0 30px 60px rgba(255,46,99,0.6);}
+        .grade-btn h3{font-size:2rem;color:white;margin-bottom:15px;}
+        .grade-btn i{font-size:3.5rem;color:var(--accent);}
+
+        /* ’›Õ… «·›ÌœÌÊÂ«  */
+        .videos-page{padding:140px 5% 100px;display:none;}
+        .back-btn{background:var(--accent);color:white;padding:15px 40px;border-radius:50px;margin:20px 0;display:inline-block;}
+        .videos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:40px;margin-top:40px;}
+        .video-card{background:var(--gray);border-radius:20px;overflow:hidden;box-shadow:0 15px 40px rgba(139,0,255,0.3);transition:0.4s;}
+        .video-card:hover{transform:translateY(-15px);}
+        .video-card iframe{width:100%;height:240px;border:none;}
+        .video-info{padding:20px;text-align:right;}
+        .video-info h3{font-size:1.5rem;color:white;margin-bottom:8px;}
+
+        /* ·ÊÕ… «· Õﬂ„ */
+        #passwordModal,.modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:9999;
+            justify-content:center;align-items:center;display:none;}
+        .modal-content{background:#111;padding:40px;border-radius:20px;text-align:center;box-shadow:0 0 40px var(--main);max-width:500px;width:90%;}
+        input,select,textarea{width:100%;padding:15px;margin:15px 0;border-radius:12px;background:#222;color:white;border:none;font-size:1.1rem;}
+        .btn{background:var(--accent);color:white;padding:15px 40px;border-radius:50px;border:none;cursor:pointer;font-size:1.2rem;margin:10px;}
+        #adminPanel,#addVideoForm{display:none;background:#111;padding:50px;border-radius:25px;margin:50px auto;max-width:700px;}
+
+        footer{background:#000;color:#aaa;text-align:center;padding:50px;border-top:3px solid var(--accent);}
+    </style>
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fas fa-hat-wizard fa-beat"></i> Õ„«œÂ ≈”„«⁄Ì· <span>⁄›—Ì  «·—Ì«÷Ì« </span>
+        </div>
+        <div class="nav-links">
+            <a href="#" onclick="showHome()">«·—∆Ì”Ì…</a>
+            <a href="#" id="devLink">«·„ÿÊ—Ê‰</a>
+            <button id="adminBtn" class="btn">·ÊÕ… «· Õﬂ„</button>
+        </div>
+    </header>
+
+    <!-- «·’›Õ… «·—∆Ì”Ì… -->
+    <div id="homePage" class="hero">
+        <h1>⁄›—Ì  «·—Ì«÷Ì« </h1>
+        <p>«Œ — ’›ﬂ «·œ—«”Ì Ê«»œ√ «·—Õ·… «·”Õ—Ì…</p>
+        <div class="grades-buttons">
+            <div class="grade-btn" onclick="showGrade('grade1')">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>«·’› «·√Ê· «·À«‰ÊÌ</h3>
+                <p>Ã»— ∑ Â‰œ”… ∑ ≈Õ’«¡</p>
+            </div>
+            <div class="grade-btn" onclick="showGrade('grade2')">
+                <i class="fas fa-calculator"></i>
+                <h3>«·’› «·À«‰Ì «·À«‰ÊÌ</h3>
+                <p>Ã»— ∑  ›«÷· ∑ Â‰œ”…  Õ·Ì·Ì…</p>
+            </div>
+            <div class="grade-btn" onclick="showGrade('grade3')">
+                <i class="fas fa-brain"></i>
+                <h3>«·’› «·À«·À «·À«‰ÊÌ</h3>
+                <p> ›«÷· ∑  ﬂ«„· ∑ „Ìﬂ«‰Ìﬂ« ∑ ≈Õ’«¡</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ’›Õ… «·›ÌœÌÊÂ«  (·ﬂ· ’›) -->
+    <div id="videosPage" class="videos-page">
+        <button class="back-btn" onclick="showHome()">«·⁄Êœ… ··—∆Ì”Ì…</button>
+        <h2 id="pageTitle" style="text-align:center;font-size:3.5rem;color:var(--accent);margin:40px 0;"></h2>
+        <div class="videos-grid" id="currentVideos"></div>
+    </div>
+
+    <!-- »Êﬂ” ﬂ·„… «·„—Ê— -->
+    <div id="passwordModal" class="modal-bg">
+        <div class="modal-content">
+            <h2 style="color:var(--accent);">„‰ÿﬁ… «·„ÿÊ—Ì‰</h2>
+            <input type="password" id="devPassword" placeholder="ﬂ·„… «·„—Ê—">
+            <br>
+            <button class="btn" onclick="checkPass()">œŒÊ·</button>
+            <button class="btn" onclick="closeModal()" style="background:#666;">≈·€«¡</button>
+        </div>
+    </div>
+
+    <!-- ·ÊÕ… «· Õﬂ„ + ›Ê—„ «·≈÷«›… -->
+    <div id="adminPanel">
+        <h2 style="text-align:center;color:var(--accent);font-size:3rem;">·ÊÕ…  Õﬂ„ «·⁄›—Ì </h2>
+        <button class="btn" onclick="showAddForm()" style="font-size:1.5rem;padding:20px 60px;margin:40px;">≈÷«›… ›ÌœÌÊ ÃœÌœ</button>
+    </div>
+
+    <div id="addVideoForm">
+        <h2 style="text-align:center;color:var(--accent);margin-bottom:30px;">≈÷«›… ›ÌœÌÊ ÃœÌœ</h2>
+        <input type="text" id="videoTitle" placeholder="⁄‰Ê«‰ «·›ÌœÌÊ">
+        <textarea id="videoDesc" placeholder="«·Ê’› («Œ Ì«—Ì)" rows="3"></textarea>
+        <input type="text" id="videoUrl" placeholder="—«»ÿ «·ÌÊ ÌÊ» („À«·: https://youtu.be/abc123)">
+        <select id="videoGrade">
+            <option value="">-- «Œ — «·’› --</option>
+            <option value="grade1">«·’› «·√Ê· «·À«‰ÊÌ</option>
+            <option value="grade2">«·’› «·À«‰Ì «·À«‰ÊÌ</option>
+            <option value="grade3">«·’› «·À«·À «·À«‰ÊÌ</option>
+        </select>
+        <button class="btn" onclick="saveVideo()">≈÷«›… «·›ÌœÌÊ</button>
+        <button class="btn" onclick="hideAddForm()" style="background:#777;">—ÃÊ⁄</button>
+    </div>
+
+    <footer>
+        <p>© 2025 Õ„«œÂ ≈”„«⁄Ì· - ⁄›—Ì  «·—Ì«÷Ì«  | ﬂ· «·ÕﬁÊﬁ „Õ›ÊŸ… ñ »‰Õ»ﬂ„ √ÊÌ</p>
+    </footer>
+
+    <script>
+        const PASSWORD = "112233332211";
+
+        // ≈Œ›«¡ ﬂ· «·√ﬁ”«„ ›Ì «·√Ê·
+        document.getElementById("videosPage").style.display = "none";
+        document.getElementById("adminPanel").style.display = "none";
+        document.getElementById("addVideoForm").style.display = "none";
+        document.getElementById("adminBtn").style.display = "none";
+
+        // ⁄—÷ «·’›Õ… «·—∆Ì”Ì…
+        function showHome() {
+            document.getElementById("homePage").style.display = "block";
+            document.getElementById("videosPage").style.display = "none";
+            document.getElementById("adminPanel").style.display = "none";
+            document.getElementById("addVideoForm").style.display = "none";
+        }
+
+        // ⁄—÷ ›ÌœÌÊÂ«  ’› „⁄Ì‰
+        function showGrade(grade) {
+            const titles = {grade1:"«·’› «·√Ê· «·À«‰ÊÌ", grade2:"«·’› «·À«‰Ì «·À«‰ÊÌ", grade3:"«·’› «·À«·À «·À«‰ÊÌ"};
+            document.getElementById("pageTitle").textContent = titles[grade];
+            document.getElementById("homePage").style.display = "none";
+            document.getElementById("videosPage").style.display = "block";
+
+            let videos = JSON.parse(localStorage.getItem("afreetVideos") || "[]");
+            let container = document.getElementById("currentVideos");
+            container.innerHTML = "";
+
+            let found = videos.filter(v => v.grade === grade);
+
+            if (found.length === 0) {
+                container.innerHTML = "<p style='text-align:center;color:#aaa;font-size:1.5rem;'>„« ›Ì‘ ›ÌœÌÊÂ«  ·”Â ›Ì «·’› œÂÖ ﬁ—Ì»« ≈‰ ‘«¡ «··Â</p>";
+            } else {
+                found.forEach(v => {
+                    container.innerHTML += `
+                        <div class="video-card">
+                            <iframe src="${v.embed}" allowfullscreen></iframe>
+                            <div class="video-info">
+                                <h3>${v.title}</h3>
+                                <p>${v.desc || ""}</p>
+                            </div>
+                        </div>`;
+                });
+            }
+        }
+
+        // ‰Ÿ«„ «·„ÿÊ—Ì‰
+        document.getElementById("devLink").onclick = (e) => {
+            e.preventDefault();
+            document.getElementById("passwordModal").style.display = "flex";
+        };
+
+        function closeModal() {
+            document.getElementById("passwordModal").style.display = "none";
+        }
+
+        function checkPass() {
+            if (document.getElementById("devPassword").value === PASSWORD) {
+                closeModal();
+                document.getElementById("adminBtn").style.display = "inline-block";
+                alert("√Â·« Ì« ⁄›—Ì ! «··ÊÕ… Ã«Â“…");
+            } else {
+                alert("ﬂ·„… «·„—Ê— €·ÿ!");
+            }
+        }
+
+        document.getElementById("adminBtn").onclick = () => {
+            document.getElementById("adminPanel").style.display = "block";
+            document.getElementById("homePage").style.display = "none";
+            document.getElementById("videosPage").style.display = "none";
+        };
+
+        function showAddForm() {
+            document.getElementById("adminPanel").style.display = "none";
+            document.getElementById("addVideoForm").style.display = "block";
+        }
+
+        function hideAddForm() {
+            document.getElementById("addVideoForm").style.display = "none";
+            document.getElementById("adminPanel").style.display = "block";
+        }
+
+        function saveVideo() {
+            let title = document.getElementById("videoTitle").value.trim();
+            let desc = document.getElementById("videoDesc").value.trim();
+            let url = document.getElementById("videoUrl").value.trim();
+            let grade = document.getElementById("videoGrade").value;
+
+            if (!title || !url || !grade) { alert("ﬂ· «·ÕﬁÊ· „ÿ·Ê»…!"); return; }
+
+            let videoId = url.split("v=")[1] || url.split("be/")[1] || url.split("/").pop();
+            let embed = `https://www.youtube.com/embed/${videoId}`;
+
+            let video = {title, desc, embed, grade};
+
+            let videos = JSON.parse(localStorage.getItem("afreetVideos") || "[]");
+            videos.push(video);
+            localStorage.setItem("afreetVideos", JSON.stringify(videos));
+
+            alert(" „ ≈÷«›… «·›ÌœÌÊ »‰Ã«Õ!");
+            document.getElementById("videoTitle").value = "";
+            document.getElementById("videoDesc").value = "";
+            document.getElementById("videoUrl").value = "";
+            document.getElementById("videoGrade").value = "";
+            hideAddForm();
+        }
+
+        //  Õ„Ì· «·›ÌœÌÊÂ«  ⁄‰œ «·› Õ
+        loadVideos();
+    </script>
+</body>
+</html>
